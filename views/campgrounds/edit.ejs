@@ -2,7 +2,12 @@
 <div class="row">
   <h1 class="text-center">New Campground</h1>
   <div class="col-6 offset-3">
-    <form action="/campgrounds/<%= campground._id%>?_method=put" method="POST">
+    <form
+      action="/campgrounds/<%= campground._id%>?_method=put"
+      method="POST"
+      novalidate
+      class="validated-form"
+    >
       <div class="mb-3">
         <label class="form-label" for="title">Title</label>
         <input
@@ -12,6 +17,7 @@
           placeholder="Title"
           class="form-control"
           value="<%= campground.title%> "
+          required
         />
       </div>
       <div class="mb-3">
@@ -23,6 +29,7 @@
           placeholder="Location"
           class="form-control"
           value="<%= campground.location%> "
+          required
         />
       </div>
       <div class="mb-3">
@@ -34,6 +41,7 @@
           placeholder="image"
           class="form-control"
           value="<%= campground.image%> "
+          required
         />
       </div>
       <div class="mb-3">
@@ -48,6 +56,7 @@
             aria-describedby="price-label"
             name="campground[price]"
             value="<%= campground.price%> "
+            required
           />
         </div>
       </div>
@@ -59,6 +68,7 @@
           id="description"
           placeholder="Description"
           class="form-control"
+          required
         >
 <%= campground.description%></textarea
         >
