@@ -1,5 +1,21 @@
 const express = require('express');
-const router = express.router;
+const router = express.Router();
+const catchAsync = require('../utils/catchAsync');
+const { campgroundSchema } = require('../schema');
+
+const ExpressError = require('../utils/ExpressError');
+const Campground = require('../models/campground');
+
+const validateCampground = (req, res, next) => {
+  const { error } = campgroundSchema.validate(req.body);
+
+  if (error) {
+    const msg = error.details.map((el) => el.message).join(',');
+    throw new ExpressError(msg, 400);
+  } else {
+    next();
+  }
+};
 
 router.get('/', async (req, res) => {
   const campgrounds = await Campground.find({});
@@ -59,27 +75,4 @@ router.delete(
   })
 );
 
-router.post(
-  '/:id/reviews',
-  validateReview,
-  catchAsync(async (req, res) => {
-    const campground = await Campground.findById(req.params.id);
-    const review = new Review(req.body.review);
-    campground.reviews.push(review);
-    await campground.save();
-    await review.save();
-    res.redirect(`/campgrounds/${campground._id}`);
-  })
-);
-
-router.delete(
-  '/:id/reviews/:reviewId',
-  catchAsync(async (req, res) => {
-    const { id, reviewId } = req.params;
-    await Campground.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });
-    await Review.findByIdAndDelete(reviewId);
-    res.redirect(`/campgrounds/${id}`);
-  })
-);
-
-module.export = router;
+module.exports = router;
