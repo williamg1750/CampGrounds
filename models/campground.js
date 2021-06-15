@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-
+const Review = require('./review');
 //this is just to shorten
 const Schema = mongoose.Schema;
 
@@ -17,5 +17,16 @@ const CampgroundSchema = new Schema({
     },
   ],
 });
+
+CampgroundSchema.post('findOneAndDelete', async function (doc) {
+  if (doc) {
+    await Review.remove({
+      _id: {
+        $in: doc.reviews,
+      },
+    });
+  }
+});
+
 //making a schema out of the model
 module.exports = mongoose.model('Campground', CampgroundSchema);
