@@ -1,20 +1,20 @@
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema
+const Schema = mongoose.Schema;
 const passportLocalMongoose = require('passport-local-mongoose');
 
-consr UserSchema = new Schema({
-  email:{
-    tpye:String,
+const UserSchema = new Schema({
+  email: {
+    type: String,
     required: true,
-    unique: true
-  }
-})
+    unique: true,
+  },
+});
+
 //and this is going to add on to our schema a user name.
 // It's going to add on a field for password.
 // It's going to make sure those user names are unique.
 // They're not duplicated.
 //It's also going to give us some additional methods that we can use.
-userSchema.plugin(passportLocalMongoose)
+UserSchema.plugin(passportLocalMongoose);
 
-
-module.exports = mongoose.model('User', UserSchema)
+module.exports = mongoose.model('User', UserSchema);
