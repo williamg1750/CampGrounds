@@ -28,7 +28,7 @@ module.exports.showCampground = async (req, res) => {
   const campground = await Campground.findById(id)
     .populate({ path: 'reviews', populate: { path: 'author' } })
     .populate('author');
-  // console.log(campground);
+  console.log(campground);
   if (!campground) {
     req.flash('error', 'campground not found');
     return res.redirect('/campgrounds');
